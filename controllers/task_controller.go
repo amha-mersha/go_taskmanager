@@ -1,92 +1,46 @@
 package controllers
 
 import (
-	"encoding/json"
-	"net/http"
-	"strconv"
-
-	"github.com/amha-mersha/go_taskmanager/data"
-	"github.com/amha-mersha/go_taskmanager/models"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
+	"bufio"
+	"fmt"
+	"os"
 )
 
-var tasks = make(map[int64]models.Task)
-
-func getTasks(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, tasks)
+var availableCommands = map[string]string{
+	"Add a task to the list":       "ADD",
+	"Remove a task from the list":  "REMOVE",
+	"Mark a task as completed":     "COMPLETE",
+	"Mark a task as not completed": "PENDING",
+	"View all tasks":               "VIEW_ALL",
+	"View completed tasks":         "VIEW_COMPLETED",
+	"View pending tasks":           "VIEW_PENDING",
+	"Quit out of the system":       "QUIT",
 }
 
-func getTaskByID(ctx *gin.Context) {
-	taskID, err := strconv.ParseInt(ctx.Param("id"), 10, 0)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
-		return
-	}
-	if _, exist := tasks[taskID]; !exist {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.IDNotFound})
-		return
-	}
-	ctx.JSON(http.StatusOK, tasks[taskID])
+var CommandtoHandler = map[string]func(models.Library) error{
+	"ADD":            handleAddTask,
+	"REMOVE":         handleRemoveTask,
+	"COMPLETE":       handleCompleteTask,
+	"PENDING":        handlePendingTask,
+	"VIEW_ALL":       handleViewAllTasks,
+	"VIEW_COMPLETED": handleViewCompletedTasks,
+	"VIEW_PENDING":   handleViewPendingTasks,
+	"QUIT":           handleQuit,
 }
+var reader = bufio.NewReader(os.Stdin)
 
-func updateTask(ctx *gin.Context) {
-	taskID, err := strconv.ParseInt(ctx.Param("id"), 10, 0)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
-		return
-	}
-	if _, exist := tasks[taskID]; !exist {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.IDNotFound})
-		return
-	}
-	var updatedTask models.Task
-	if err = ctx.ShouldBindJSON(&updatedTask); err != nil {
-		switch e := err.(type) {
-		case *json.SyntaxError:
-			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MalformedJSON})
-		case *json.UnmarshalTypeError:
-			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MismatchedFormat})
-		case validator.ValidationErrors:
-			missingRequireds := []string{}
-			for _, fieldError := range e {
-				missingRequireds = append(missingRequireds, fieldError.Error())
-			}
-			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MissingRequireds, "Missing": missingRequireds})
+func Run() {
+	fmt.Println("Hello there, this is a library managment system.")
+	fmt.Println("Here are the available commands in this library:")
+	maxDescWidth := 0
+	for _, cmd := range availableCommands {
+		if maxDescWidth < len(cmd) {
+			maxDescWidth = len(cmd)
 		}
 	}
-	tasks[taskID] = updatedTask
-	ctx.JSON(http.StatusOK, tasks[taskID])
-}
-func deleteTask(ctx *gin.Context) {
-	taskID, err := strconv.ParseInt(ctx.Param("id"), 10, 0)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
-		return
-	}
-	if _, exist := tasks[taskID]; !exist {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.IDNotFound})
-		return
-	}
-	delete(tasks, taskID)
-}
 
-func postTask(ctx *gin.Context) {
-	var newTask models.Task
-	if err := ctx.ShouldBindJSON(&newTask); err != nil {
-		switch e := err.(type) {
-		case *json.SyntaxError:
-			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MalformedJSON})
-		case *json.UnmarshalTypeError:
-			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MismatchedFormat})
-		case validator.ValidationErrors:
-			missingRequireds := []string{}
-			for _, fieldError := range e {
-				missingRequireds = append(missingRequireds, fieldError.Error())
-			}
-			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MissingRequireds, "Missing": missingRequireds})
-		}
+	for desc, cmd := range availableCommands {
+		fmt.Printf("\tTo %-*v : %v.\n", maxDescWidth, desc, cmd)
 	}
-	tasks[int64(newTask.ID)] = newTask
-	ctx.JSON(http.StatusAccepted, newTask)
+	fmt.Println("Enter your command after >")
 }
