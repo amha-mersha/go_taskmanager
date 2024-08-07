@@ -18,12 +18,13 @@ func GetTasks(ctx *gin.Context) {
 func GetTaskByID(ctx *gin.Context) {
 	taskID, err := strconv.ParseInt(ctx.Param("id"), 10, 0)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 	task, err := data.GetTaskByID(taskID)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
 	}
 	ctx.JSON(http.StatusOK, task)
 }
@@ -31,7 +32,7 @@ func GetTaskByID(ctx *gin.Context) {
 func UpdateTask(ctx *gin.Context) {
 	taskID, err := strconv.ParseInt(ctx.Param("id"), 10, 0)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 	var updatedTask models.Task
@@ -48,10 +49,12 @@ func UpdateTask(ctx *gin.Context) {
 			}
 			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MissingRequireds, "Missing": missingRequireds})
 		}
+		return
 	}
 	err = data.UpdateTask(taskID, updatedTask)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
 	}
 	ctx.JSON(http.StatusOK, updatedTask)
 }
@@ -59,12 +62,13 @@ func UpdateTask(ctx *gin.Context) {
 func DeleteTask(ctx *gin.Context) {
 	taskID, err := strconv.ParseInt(ctx.Param("id"), 10, 0)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
 	err = data.DeleteTask(taskID)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"Success": "Task has been succesfuly deleted."})
 }
@@ -84,11 +88,13 @@ func PostTask(ctx *gin.Context) {
 			}
 			ctx.JSON(http.StatusBadRequest, gin.H{"Error": data.MissingRequireds, "Missing": missingRequireds})
 		}
+		return
 	}
 	err := data.PostTask(newTask)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
 	}
 	ctx.JSON(http.StatusAccepted, newTask)
 }
