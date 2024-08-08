@@ -102,7 +102,7 @@ This endpoint allows the user to create a new task.
 ### Body (raw json)
 
 ```json {
-        "id": {{randomTen}},
+        "id": 432,
         "title": "Complete project report",
         "description": "Finish the annual project report by the end of the week",
         "status": "completed",
@@ -266,13 +266,12 @@ This endpoint is used to delete a specific task by providing the task ID in the 
 - Content-Type: application/json
 - Body:
 
-  ````json
+  ```json
   {
-  "Success": ""
+    "Success": ""
   }
+  ```
 
-       ```
+### Path Variables
 
-  Path Variables
-  `id                 {{randomTen}}`
-  ````
+`id                 {{randomTen}}`
