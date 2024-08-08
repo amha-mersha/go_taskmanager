@@ -265,11 +265,14 @@ This endpoint is used to delete a specific task by providing the task ID in the 
 - Status: 200
 - Content-Type: application/json
 - Body:
-      ``` json
-        {
-          "Success": ""
-        }
+
+  ````json
+  {
+  "Success": ""
+  }
 
        ```
+
   Path Variables
   `id                 {{randomTen}}`
+  ````
