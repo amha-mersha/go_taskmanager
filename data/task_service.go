@@ -1,6 +1,8 @@
 package data
 
 import (
+	"time"
+
 	"github.com/amha-mersha/go_taskmanager/models"
 )
 
@@ -20,7 +22,48 @@ const (
 	MissingRequireds  = "There are some missing required feilds."
 )
 
-var tasks = make(map[int64]models.Task)
+var tasks = map[int64]models.Task{
+	0: {
+		ID:          0,
+		Title:       "Prepare presentation",
+		Description: "Prepare slides for the upcoming presentation",
+		Status:      "pending",
+		Priority:    "",
+		DueDate:     time.Time{},
+		CreatedAt:   time.Time{},
+		UpdatedAt:   time.Time{},
+	},
+	1: {
+		ID:          1,
+		Title:       "Write unit tests",
+		Description: "Write unit tests for the new features implemented",
+		Status:      "pending",
+		Priority:    "",
+		DueDate:     time.Time{},
+		CreatedAt:   time.Time{},
+		UpdatedAt:   time.Time{},
+	},
+	2: {
+		ID:          2,
+		Title:       "Complete project report",
+		Description: "Finish the annual project report by the end of the week",
+		Status:      "completed",
+		Priority:    "high",
+		DueDate:     time.Time{},
+		CreatedAt:   time.Time{},
+		UpdatedAt:   time.Time{},
+	},
+	3: {
+		ID:          3,
+		Title:       "Team meeting",
+		Description: "Attend the weekly team meeting on Friday",
+		Status:      "completed",
+		Priority:    "",
+		DueDate:     time.Time{},
+		CreatedAt:   time.Time{},
+		UpdatedAt:   time.Time{},
+	},
+}
 
 func GetTasks() map[int64]models.Task {
 	return tasks
