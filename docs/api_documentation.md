@@ -36,30 +36,29 @@ The API returns a JSON object containing a list of tasks. Each task is represent
 
 ### Response Example
 
-```c
+```json
 {
-    "2": {
-        "id": 0,
-        "title": "",
-        "description": "",
-        "status": "",
-        "priority": "",
-        "due_date": "",
-        "created_at": "",
-        "updated_at": ""
-    },
-    "3": {
-        "id": 0,
-        "title": "",
-        "description": "",
-        "status": "",
-        "priority": "",
-        "due_date": "",
-        "created_at": "",
-        "updated_at": ""
-    }
+  "2": {
+    "id": 0,
+    "title": "",
+    "description": "",
+    "status": "",
+    "priority": "",
+    "due_date": "",
+    "created_at": "",
+    "updated_at": ""
+  },
+  "3": {
+    "id": 0,
+    "title": "",
+    "description": "",
+    "status": "",
+    "priority": "",
+    "due_date": "",
+    "created_at": "",
+    "updated_at": ""
+  }
 }
-
 ```
 
 ## Create Task
@@ -101,16 +100,17 @@ This endpoint allows the user to create a new task.
 
 ### Body (raw json)
 
-```json {
-        "id": 432,
-        "title": "Complete project report",
-        "description": "Finish the annual project report by the end of the week",
-        "status": "completed",
-        "priority": "high",
-        "due_date": "0001-01-01T00:00:00Z",
-        "created_at": "0001-01-01T00:00:00Z",
-        "updated_at": "0001-01-01T00:00:00Z"
-    }
+```json
+{
+  "id": 432,
+  "title": "Complete project report",
+  "description": "Finish the annual project report by the end of the week",
+  "status": "completed",
+  "priority": "high",
+  "due_date": "0001-01-01T00:00:00Z",
+  "created_at": "0001-01-01T00:00:00Z",
+  "updated_at": "0001-01-01T00:00:00Z"
+}
 ```
 
 ##Get Single Task
