@@ -109,17 +109,14 @@ POST {{URL}}/api/v1/tasks
 
 ```json
 {
-  "type": "object",
-  "properties": {
-    "id": { "type": "number" },
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "status": { "type": "string" },
-    "priority": { "type": "string" },
-    "due_date": { "type": "string" },
-    "created_at": { "type": "string" },
-    "updated_at": { "type": "string" }
-  }
+  "id": { "type": "number" },
+  "title": { "type": "string" },
+  "description": { "type": "string" },
+  "status": { "type": "string" },
+  "priority": { "type": "string" },
+  "due_date": { "type": "string" },
+  "created_at": { "type": "string" },
+  "updated_at": { "type": "string" }
 }
 ```
 
@@ -254,17 +251,14 @@ The response is a JSON object with the following schema:
 
 ```json
 {
-  "type": "object",
-  "properties": {
-    "id": { "type": "number" },
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "status": { "type": "string" },
-    "priority": { "type": "string" },
-    "due_date": { "type": "string" },
-    "created_at": { "type": "string" },
-    "updated_at": { "type": "string" }
-  }
+  "id": { "type": "number" },
+  "title": { "type": "string" },
+  "description": { "type": "string" },
+  "status": { "type": "string" },
+  "priority": { "type": "string" },
+  "due_date": { "type": "string" },
+  "created_at": { "type": "string" },
+  "updated_at": { "type": "string" }
 }
 ```
 
